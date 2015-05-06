@@ -24,6 +24,8 @@ import uk.ac.ncl.cs.csc2024.operator.Operator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -36,9 +38,34 @@ import java.util.Set;
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(name = Route.SELECT_ALL, query = "select r from Route r order by r.number asc")
+        @NamedQuery(name = Route.SELECT_ALL, query = "SELECT r FROM Route r ORDER BY r.number ASC")
 })
-@Table(name = "route")
+@Table(name = "Route")
 public class Route {
     public static final String SELECT_ALL = "Route.selectAll";
+    
+    @Id @Column(name = "RouteNumber")
+    private int routeNumber;
+    
+    @NotNull
+    @ManyToOne
+    @Column(name = "StartID")
+    private BusStop start;
+    
+    @NotNull
+    @ManyToOne
+    @Column(name = "DestinationID")
+    private BusStop end;
+    
+    @NotNull
+    @Column(name = "Frequency")
+    private int bussesPerHour;
+    
+    @ManyToMany(
+    		targetEntity = Operator.class)
+    @JoinTable(
+    		name = "Operates",
+    		joinColumns = @JoinColumn(name = "RouteNumber"),
+    		inverseJoinColumns = @JoinColumn(name = "OperatorName"))
+    private Set<Operator> routeOperators = new HashSet<Operator>();
 }

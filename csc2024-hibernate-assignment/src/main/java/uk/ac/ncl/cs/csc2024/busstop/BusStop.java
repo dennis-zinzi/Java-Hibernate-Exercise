@@ -20,7 +20,7 @@
 package uk.ac.ncl.cs.csc2024.busstop;
 
 import uk.ac.ncl.cs.csc2024.route.Route;
-
+import javax.validation.constraints.NotNull;
 import javax.persistence.*;
 import java.util.Set;
 
@@ -34,11 +34,18 @@ import java.util.Set;
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(name = BusStop.SELECT_ALL, query = "select b from BusStop b order by b.id asc")
+	@NamedQuery(name = BusStop.SELECT_ALL, query = "SELECT b FROM BusStop b ORDER BY b.id ASC")
 })
-@Table(name = "bus_stop")
+@Table(name = "BusStop")
 public class BusStop {
 
-    public static final String SELECT_ALL = "BusStop.selectAll";
-    
+	public static final String SELECT_ALL = "BusStop.selectAll";
+
+	@Id @Column(name = "ID")
+	private int ID;
+
+	@NotNull
+	@Column(name = "Description")
+	private String description;
+
 }

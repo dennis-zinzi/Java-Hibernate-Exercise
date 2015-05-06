@@ -24,6 +24,8 @@ import uk.ac.ncl.cs.csc2024.route.Route;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -36,11 +38,43 @@ import java.util.Set;
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(name = Operator.SELECT_ALL, query = "select o from Operator o order by o.name asc")
+        @NamedQuery(name = Operator.SELECT_ALL, query = "SELECT o FROM Operator o ORDER BY o.name ASC")
 })
-@Table(name = "operator")
+@Table(name = "Operator")
 public class Operator {
 
     public static final String SELECT_ALL =  "Operator.selectAll";
+    
+    @Id @Column(name = "OperatorName")
+	private String name;
+    
+    @NotNull
+    @Column(name = "Street")
+    private String street;
+    
+    @NotNull
+    @Column(name = "Town")
+    private String town;
+    
+    @NotNull
+    @Column(name = "Postcode")
+    private int postcode;
+    
+    @NotNull
+    @Column(name = "Phone")
+    private String phone;
+    
+    @NotNull
+    @Column(name = "Email")
+    private String email;
+    
+
+    @ManyToMany(
+    		targetEntity = Route.class)
+    @JoinTable(
+    		name = "Operates",
+    		joinColumns = @JoinColumn(name = "OperatorName"),
+    		inverseJoinColumns = @JoinColumn(name = "RouteNumber"))
+    private Set<Route> operatorRoutes = new HashSet<Route>();
 
 }
