@@ -1,0 +1,11 @@
+number,frequency,start,destination,operators
+1,2,9015,9022,Venture Travel
+16,6,7628,1500,Diamond Buses
+16a,2,7628,9022,Diamond Buses
+21,4,1023,1015,Bond Brothers
+22,1,1023,1500,Bond Brothers
+30,4,1015,1500,Bond Brothers
+64,6,9015,7628,Lockey's
+88,2,9016,1015,Venture Travel
+100,4,6700,1500,OK Travel
+111,4,6700,9016,Venture Travel|OK Travel
