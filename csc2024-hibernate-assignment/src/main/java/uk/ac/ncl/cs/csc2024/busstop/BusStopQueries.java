@@ -23,6 +23,8 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Query;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
+
 import uk.ac.ncl.cs.csc2024.query.ExampleQuery;
 
 import java.util.Map;
@@ -93,8 +95,9 @@ public class BusStopQueries {
 
             @Override
             public Criteria getCriteria(Session session) {
-            	Criteria criteria = session.createCriteria(BusStop.class, "b");
-                criteria.addOrder(Order.asc("b.id"));
+            	Criteria criteria = session.createCriteria(BusStop.class);
+                //criteria.addOrder(Order.asc("b.id"));
+            	criteria.setProjection(Projections.max("ID"));
                 return criteria;
             }
         };
