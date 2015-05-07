@@ -48,18 +48,29 @@ public class Route {
 	private String routeNumber;
 
 	@NotNull
-	@ManyToOne
-	//@Column(name = "StartID")
-	private BusStop start;
+	@Column(name = "StartID")
+	private int startID;
 
 	@NotNull
-	@ManyToOne
-	//@Column(name = "DestinationID")
-	private BusStop end;
-
+	@Column(name = "DestinationID")
+	private int destinationID;
+	
 	@NotNull
 	@Column(name = "Frequency")
 	private int bussesPerHour;
+	
+	
+	
+
+	@ManyToOne
+	@JoinColumn(name = "StartIDJoin")
+	private BusStop start;
+
+
+	@ManyToOne
+	@JoinColumn(name = "DestinationIDJoin")
+	private BusStop end;
+
 
 	@ManyToMany(
 			targetEntity = Operator.class)
@@ -102,6 +113,27 @@ public class Route {
 	public int getBussesPerHour(){
 		return bussesPerHour;
 	}
+	
+	
+	
+	public int getStartID() {
+		return startID;
+	}
+
+	public void setStartID(int startID) {
+		this.startID = startID;
+	}
+
+	public int getDestinationID() {
+		return destinationID;
+	}
+
+	public void setDestinationID(int destinationID) {
+		this.destinationID = destinationID;
+	}
+	
+	
+	
 	
 	public void setRouteOperators(Set<Operator> routeOperators){
 		this.routeOperators = routeOperators;

@@ -123,6 +123,7 @@ public class RouteInsertQueryTest {
             session.getTransaction().rollback();
             fail("The test failed because the inserted rows did not match those expected: " + e.getMessage());
         }  catch(Exception e) {
+        	e.printStackTrace();
             session.getTransaction().rollback();
             Assert.fail("An exception was thrown because some of the Routes rows could not be inserted into the " +
                     "database! "+e.getMessage());

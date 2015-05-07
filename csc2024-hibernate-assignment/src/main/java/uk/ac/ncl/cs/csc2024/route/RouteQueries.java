@@ -29,6 +29,8 @@ import org.hibernate.sql.JoinType;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.Type;
 
+import com.sun.org.apache.xalan.internal.xsltc.runtime.Operators;
+
 import uk.ac.ncl.cs.csc2024.busstop.BusStop;
 import uk.ac.ncl.cs.csc2024.operator.Operator;
 import uk.ac.ncl.cs.csc2024.query.ExampleQuery;
@@ -60,15 +62,10 @@ public class RouteQueries {
         r.setRouteNumber(row.get("number"));
         r.setBussesPerHour(Integer.parseInt(row.get("frequency")));
         
-        BusStop b = new BusStop();
-        b.setID(Integer.parseInt(row.get("start")));
-        BusStop b2 = new BusStop();
-        b2.setID(Integer.parseInt(row.get("destination")));
+        r.setStartID(Integer.parseInt(row.get("start")));
+        r.setDestinationID(Integer.parseInt(row.get("destination")));
         
-        r.setStart(b);
-        r.setDestionation(b2);
-        
-        Set<String> routeOperatorsStrings = new HashSet<String>(Arrays.asList(row.get("operators").split("|")));
+        Set<String> routeOperatorsStrings = new HashSet<String>(Arrays.asList(row.get("operators").split("\\|")));
         Set<Operator> routeOperators = new HashSet<Operator>();
         for(String s:routeOperatorsStrings){
         	Operator o = new Operator();

@@ -82,17 +82,20 @@ public class BusStopQueries {
         return new ExampleQuery() {
             @Override
             public Query getQuery(Session session) {
-                return null;
+                //return null;
+            	return session.createQuery("SELECT MAX(ID) FROM BusStop");
             }
 
             @Override
             public String getNamedQueryName() {
-                return null;
+                return BusStop.MAX_ID;
             }
 
             @Override
             public Criteria getCriteria(Session session) {
-                return null;
+            	Criteria criteria = session.createCriteria(BusStop.class, "b");
+                criteria.addOrder(Order.asc("b.id"));
+                return criteria;
             }
         };
     }

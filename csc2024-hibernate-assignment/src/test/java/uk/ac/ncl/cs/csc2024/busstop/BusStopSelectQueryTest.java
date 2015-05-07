@@ -65,6 +65,7 @@ public class BusStopSelectQueryTest {
             session.getTransaction().rollback();
             fail("The test failed because one or more of the queries did not satisfy the requirements: " + e.getMessage());
         } catch(Exception e) {
+        	e.getStackTrace();
             session.getTransaction().rollback();
             fail("There was some unknown error with the test. " + e.getMessage());
         }

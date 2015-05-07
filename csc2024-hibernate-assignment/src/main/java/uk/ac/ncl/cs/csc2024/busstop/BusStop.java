@@ -20,8 +20,11 @@
 package uk.ac.ncl.cs.csc2024.busstop;
 
 import uk.ac.ncl.cs.csc2024.route.Route;
+
 import javax.validation.constraints.NotNull;
 import javax.persistence.*;
+
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -34,12 +37,14 @@ import java.util.Set;
  */
 @Entity
 @NamedQueries({
-	@NamedQuery(name = BusStop.SELECT_ALL, query = "SELECT b FROM BusStop b ORDER BY b.id ASC")
+	@NamedQuery(name = BusStop.SELECT_ALL, query = "SELECT b FROM BusStop b ORDER BY b.id ASC"),
+	@NamedQuery(name = BusStop.MAX_ID, query = "SELECT MAX(ID) FROM BusStop")
 })
 @Table(name = "BusStop")
 public class BusStop {
 
 	public static final String SELECT_ALL = "BusStop.selectAll";
+	public static final String MAX_ID = "BusStop.maxID";
 
 	@Id @Column(name = "ID")
 	private int ID;
@@ -63,4 +68,10 @@ public class BusStop {
 		return description;
 	}
 
+	@OneToMany(mappedBy="start")
+	private Set<Route> routeStarts = new HashSet<Route>();
+	
+	@OneToMany(mappedBy="end")
+	private Set<Route> routeEnd = new HashSet<Route>();
+	
 }
