@@ -91,7 +91,7 @@ public class BusStopInsertQueryTest {
     }
 
     @Test
-    public void testInsertedCorrectRows() {
+    public void testInsertedCorrectRows() { 
         try {
             session.beginTransaction();
             for (Map<String, String> row : rows) {
