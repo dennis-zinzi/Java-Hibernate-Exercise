@@ -45,7 +45,7 @@ public class Route {
 	public static final String SELECT_ALL = "Route.selectAll";
 
 	@Id @Column(name = "RouteNumber")
-	private int routeNumber;
+	private String routeNumber;
 
 	@NotNull
 	@ManyToOne
@@ -68,4 +68,46 @@ public class Route {
 			joinColumns = @JoinColumn(name = "RouteNumber"),
 			inverseJoinColumns = @JoinColumn(name = "OperatorName"))
 	private Set<Operator> routeOperators = new HashSet<Operator>();
+	
+	
+	
+	public void setRouteNumber(String routeNumber){
+		this.routeNumber = routeNumber;
+	}
+	
+	public void setStart(BusStop start){
+		this.start = start;
+	}
+	
+	public void setDestionation(BusStop end){
+		this.end = end;
+	}
+	
+	public void setBussesPerHour(int bussesPerHour){
+		this.bussesPerHour = bussesPerHour;
+	}
+	
+	public String getRouteNumber(){
+		return routeNumber;
+	
+	}
+	public BusStop getStart(){
+		return start;
+	}
+	
+	public BusStop getEnd(){
+		return end;
+	}
+	
+	public int getBussesPerHour(){
+		return bussesPerHour;
+	}
+	
+	public void setRouteOperators(Set<Operator> routeOperators){
+		this.routeOperators = routeOperators;
+	}
+	
+	public Set<Operator> getRouteOperators(){
+		return routeOperators;
+	}
 }

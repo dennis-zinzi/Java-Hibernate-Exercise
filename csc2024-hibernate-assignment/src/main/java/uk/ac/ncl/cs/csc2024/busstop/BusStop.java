@@ -54,5 +54,13 @@ public class BusStop {
 	public void setDescription(String description){
 		this.description = description;
 	}
+	
+	public int getId(){
+		return ID;
+	}
+	
+	public String getDescription(){
+		return description;
+	}
 
 }

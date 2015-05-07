@@ -58,7 +58,7 @@ public class Operator {
     
     @NotNull
     @Column(name = "Postcode")
-    private int postcode;
+    private String postcode;
     
     @NotNull
     @Column(name = "Phone")
@@ -76,5 +76,75 @@ public class Operator {
     		joinColumns = @JoinColumn(name = "OperatorName"),
     		inverseJoinColumns = @JoinColumn(name = "RouteNumber"))
     private Set<Route> operatorRoutes = new HashSet<Route>();
+
+
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+	public String getStreet() {
+		return street;
+	}
+
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+
+	public String getTown() {
+		return town;
+	}
+
+
+	public void setTown(String town) {
+		this.town = town;
+	}
+
+
+	public String getPostcode() {
+		return postcode;
+	}
+
+
+	public void setPostcode(String postcode) {
+		this.postcode = postcode;
+	}
+
+
+	public String getPhone() {
+		return phone;
+	}
+
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+	public Set<Route> getRoutes() {
+		return operatorRoutes;
+	}
+
+
+	public void setOperatorRoutes(Set<Route> operatorRoutes) {
+		this.operatorRoutes = operatorRoutes;
+	}
 
 }

@@ -28,10 +28,12 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.Type;
+
 import uk.ac.ncl.cs.csc2024.busstop.BusStop;
 import uk.ac.ncl.cs.csc2024.operator.Operator;
 import uk.ac.ncl.cs.csc2024.query.ExampleQuery;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -53,7 +55,32 @@ import java.util.Set;
 public class RouteQueries {
 
     public static Session insert(final Map<String, String> row, final Session session) {
-        return null;
+        Route r = new Route();
+        
+        r.setRouteNumber(row.get("number"));
+        r.setBussesPerHour(Integer.parseInt(row.get("frequency")));
+        
+        BusStop b = new BusStop();
+        b.setID(Integer.parseInt(row.get("start")));
+        BusStop b2 = new BusStop();
+        b2.setID(Integer.parseInt(row.get("destination")));
+        
+        r.setStart(b);
+        r.setDestionation(b2);
+        
+        Set<String> routeOperatorsStrings = new HashSet<String>(Arrays.asList(row.get("operators").split("|")));
+        Set<Operator> routeOperators = new HashSet<Operator>();
+        for(String s:routeOperatorsStrings){
+        	Operator o = new Operator();
+        	o.setName(s);
+        	routeOperators.add(o);
+        }
+        r.setRouteOperators(routeOperators);
+        
+        
+        session.save(r);
+    	
+    	return session;
     }
 
     public static ExampleQuery selectAll() {

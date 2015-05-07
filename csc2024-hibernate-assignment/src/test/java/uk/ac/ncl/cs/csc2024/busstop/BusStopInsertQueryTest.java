@@ -26,6 +26,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 import org.junit.*;
+
 import uk.ac.ncl.cs.csc2024.BusStopPredicates;
 import uk.ac.ncl.cs.csc2024.PredicateNotSatisfiedException;
 import uk.ac.ncl.cs.csc2024.operator.OperatorQueries;

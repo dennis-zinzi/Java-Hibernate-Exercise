@@ -51,7 +51,19 @@ import java.util.Map;
 public class OperatorQueries {
 
     public static Session insert(final Map<String, String> row, Session session) {
-        return null;
+    	
+    	Operator op = new Operator();
+    	
+    	op.setName(row.get("name"));
+    	op.setStreet(row.get("street"));
+    	op.setTown(row.get("town"));
+    	op.setPostcode(row.get("postcode"));
+    	op.setPhone(row.get("phone"));
+    	op.setEmail(row.get("email"));
+    	
+    	session.save(op);
+    	
+        return session;
     }
 
     public static ExampleQuery selectAll() {
