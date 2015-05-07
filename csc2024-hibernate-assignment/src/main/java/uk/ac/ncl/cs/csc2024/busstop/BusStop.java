@@ -47,5 +47,12 @@ public class BusStop {
 	@NotNull
 	@Column(name = "Description")
 	private String description;
+	
+	public void setID(int ID){
+		this.ID = ID;
+	}
+	public void setDescription(String description){
+		this.description = description;
+	}
 
 }

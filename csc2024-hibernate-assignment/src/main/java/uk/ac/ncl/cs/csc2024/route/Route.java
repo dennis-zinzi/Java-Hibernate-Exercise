@@ -38,23 +38,23 @@ import java.util.Set;
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(name = Route.SELECT_ALL, query = "SELECT r FROM Route r ORDER BY r.number ASC")
+        //@NamedQuery(name = Route.SELECT_ALL, query = "SELECT r FROM Route r ORDER BY r.number ASC")
 })
 @Table(name = "Route")
 public class Route {
-    public static final String SELECT_ALL = "Route.selectAll";
+   // public static final String SELECT_ALL = "Route.selectAll";
     
     @Id @Column(name = "RouteNumber")
     private int routeNumber;
     
     @NotNull
     @ManyToOne
-    @Column(name = "StartID")
+    //@Column(name = "StartID")
     private BusStop start;
     
     @NotNull
     @ManyToOne
-    @Column(name = "DestinationID")
+    //@Column(name = "DestinationID")
     private BusStop end;
     
     @NotNull

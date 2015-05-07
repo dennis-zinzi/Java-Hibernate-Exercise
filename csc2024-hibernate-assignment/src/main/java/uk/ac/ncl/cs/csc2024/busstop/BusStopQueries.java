@@ -45,7 +45,20 @@ import java.util.Map;
 public class BusStopQueries {
 
     public static Session insert(final Map<String, String> row, final Session session) {
-        return null;
+    	String query = "";
+    	for(Map.Entry<String, String> entry: row.entrySet()){
+    		if(entry.getKey().equalsIgnoreCase("ID")){
+    			query = "INSERT INTO BusStop("+entry.getKey()+") VALUES ("+Integer.parseInt(entry.getValue())+");";
+    		}
+    		else if(entry.getKey().equalsIgnoreCase("Description")){
+    			query = "INSERT INTO BusStop ("+entry.getKey()+") VALUES ("+entry.getValue()+");";
+    		}
+    	}
+    	Query q = session.createSQLQuery(query);
+    	q.executeUpdate();
+    	
+    	return session;
+    	
     }
 
     public static ExampleQuery selectAll() {
