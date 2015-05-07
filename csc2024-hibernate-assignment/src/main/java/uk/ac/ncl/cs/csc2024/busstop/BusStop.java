@@ -71,7 +71,7 @@ public class BusStop {
 	@OneToMany(mappedBy="start")
 	private Set<Route> routeStarts = new HashSet<Route>();
 	
-	@OneToMany(mappedBy="end")
+	@OneToMany(mappedBy="destination")
 	private Set<Route> routeEnd = new HashSet<Route>();
 	
 }

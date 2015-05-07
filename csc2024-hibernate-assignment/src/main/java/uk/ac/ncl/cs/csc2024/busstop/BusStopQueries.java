@@ -85,7 +85,7 @@ public class BusStopQueries {
             @Override
             public Query getQuery(Session session) {
                 //return null;
-            	return session.createQuery("SELECT MAX(ID) FROM BusStop");
+            	return session.createQuery("SELECT MAX(b.ID) FROM BusStop b");
             }
 
             @Override

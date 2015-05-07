@@ -24,6 +24,6 @@
 	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.6.4.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.16.jar"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.10.jar"/>
-	<classpathentry kind="lib" path="lib/csc2024-hibernate-assignment-predicates-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/csc2024-hibernate-assignment-predicates-1.0.jar" sourcepath="lib/csc2024-hibernate-assignment-predicates-1.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

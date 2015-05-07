@@ -42,32 +42,32 @@ import static org.junit.Assert.*;
  */
 public class BusStopSelectQueryTest {
 
-    private Session session;
+	private Session session;
 
-    @Before
-    public void setUp() {
-        session = SelectQueriesTestSuite.sessionFactory.getCurrentSession();
-    }
+	@Before
+	public void setUp() {
+		session = SelectQueriesTestSuite.sessionFactory.getCurrentSession();
+	}
 
-    @Test
-    public void testSelectCorrectMaxId() {
-        try {
-            session.beginTransaction();
-            ExampleQuery q = BusStopQueries.selectMaxId();
-            Query query = q.getQuery(session);
-            Query namedQuery = session.getNamedQuery(q.getNamedQueryName());
-            Criteria criteria = q.getCriteria(session);
-            assertTrue(BusStopPredicates.SELECT_MAX_ID.isSatisfied(query));
-            assertTrue(BusStopPredicates.SELECT_MAX_ID.isSatisfied(namedQuery));
-            assertTrue(BusStopPredicates.SELECT_MAX_ID.isSatisfied(criteria));
-            session.getTransaction().commit();
-        } catch (PredicateNotSatisfiedException e) {
-            session.getTransaction().rollback();
-            fail("The test failed because one or more of the queries did not satisfy the requirements: " + e.getMessage());
-        } catch(Exception e) {
-        	e.getStackTrace();
-            session.getTransaction().rollback();
-            fail("There was some unknown error with the test. " + e.getMessage());
-        }
-    }
+	@Test
+	public void testSelectCorrectMaxId() {
+		try {
+			session.beginTransaction();
+			ExampleQuery q = BusStopQueries.selectMaxId();
+			Query query = q.getQuery(session);
+			Query namedQuery = session.getNamedQuery(q.getNamedQueryName());
+			Criteria criteria = q.getCriteria(session);
+			assertTrue(BusStopPredicates.SELECT_MAX_ID.isSatisfied(query));
+			assertTrue(BusStopPredicates.SELECT_MAX_ID.isSatisfied(namedQuery));
+			assertTrue(BusStopPredicates.SELECT_MAX_ID.isSatisfied(criteria));
+			session.getTransaction().commit();
+		} catch (PredicateNotSatisfiedException e) {
+			session.getTransaction().rollback();
+			fail("The test failed because one or more of the queries did not satisfy the requirements: " + e.getMessage());
+		} catch(Exception e) {
+			session.getTransaction().rollback();
+			e.printStackTrace();
+			fail("There was some unknown error with the test. " + e.getMessage());
+		}
+	}
 }

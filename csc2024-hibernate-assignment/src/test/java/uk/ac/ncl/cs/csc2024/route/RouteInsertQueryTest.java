@@ -120,6 +120,7 @@ public class RouteInsertQueryTest {
             assertTrue(RoutePredicates.INSERT_CORRECT_ROWS.isSatisfied(query));
             session.getTransaction().commit();
         } catch (PredicateNotSatisfiedException e) {
+        	e.printStackTrace();
             session.getTransaction().rollback();
             fail("The test failed because the inserted rows did not match those expected: " + e.getMessage());
         }  catch(Exception e) {

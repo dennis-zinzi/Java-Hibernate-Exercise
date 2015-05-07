@@ -51,6 +51,7 @@ public class RouteSelectQueryTest {
         session = SelectQueriesTestSuite.sessionFactory.getCurrentSession();
     }
 
+    @Ignore
     @Test
     public void testSelectAllForRailwayStation() {
         try {
@@ -72,7 +73,7 @@ public class RouteSelectQueryTest {
         }
     }
 
-    @Test
+    @Test @Ignore
     public void testCumulativeFrequencyByOkTravel() {
         try {
             session.beginTransaction();

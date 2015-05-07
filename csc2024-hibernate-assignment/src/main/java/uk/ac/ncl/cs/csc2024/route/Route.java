@@ -47,31 +47,30 @@ public class Route {
 	@Id @Column(name = "RouteNumber")
 	private String routeNumber;
 
-	@NotNull
-	@Column(name = "StartID")
-	private int startID;
+	//@NotNull
+	//@Column(name = "StartID")
+	//private int startID;
 
-	@NotNull
-	@Column(name = "DestinationID")
-	private int destinationID;
+	//@NotNull
+	//@Column(name = "DestinationID")
+	//private int destinationID;
 	
 	@NotNull
 	@Column(name = "Frequency")
 	private int bussesPerHour;
 	
 	
-	
-
 	@ManyToOne
-	@JoinColumn(name = "StartIDJoin")
+	@JoinColumn(name = "StartID")
 	private BusStop start;
 
-
+	
 	@ManyToOne
-	@JoinColumn(name = "DestinationIDJoin")
-	private BusStop end;
+	@JoinColumn(name = "DestinationID")
+	private BusStop destination;
 
 
+	
 	@ManyToMany(
 			targetEntity = Operator.class)
 	@JoinTable(
@@ -90,15 +89,15 @@ public class Route {
 		this.start = start;
 	}
 	
-	public void setDestionation(BusStop end){
-		this.end = end;
+	public void setDestination(BusStop destination){
+		this.destination = destination;
 	}
 	
 	public void setBussesPerHour(int bussesPerHour){
 		this.bussesPerHour = bussesPerHour;
 	}
 	
-	public String getRouteNumber(){
+	public String getNumber(){
 		return routeNumber;
 	
 	}
@@ -106,8 +105,8 @@ public class Route {
 		return start;
 	}
 	
-	public BusStop getEnd(){
-		return end;
+	public BusStop getDestination(){
+		return destination;
 	}
 	
 	public int getBussesPerHour(){
@@ -116,7 +115,7 @@ public class Route {
 	
 	
 	
-	public int getStartID() {
+	/*public int getStartID() {
 		return startID;
 	}
 
@@ -130,7 +129,7 @@ public class Route {
 
 	public void setDestinationID(int destinationID) {
 		this.destinationID = destinationID;
-	}
+	}*/
 	
 	
 	

@@ -91,17 +91,20 @@ public class OperatorQueries {
         return new ExampleQuery() {
             @Override
             public Query getQuery(Session session) {
-                return null;
+                return session.createQuery("SELECT r FROM Route r, Operator o, Operates op "
+                		+ "WHERE o.name = 'Diamond Buses' AND op.name = o.name AND op.routeNumber = r.routeNumber");
             }
 
             @Override
             public String getNamedQueryName() {
-                return null;
+                return Operator.SELECT_ALL_ROUTES_BY_DIAMOND_BUSES;
             }
 
             @Override
             public Criteria getCriteria(Session session) {
-                return null;
+            	Criteria criteria = session.createCriteria(Operator.class, "o");
+                criteria.addOrder(Order.asc("o.name"));
+                return criteria;
             }
         };
     }

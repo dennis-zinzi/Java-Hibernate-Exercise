@@ -62,8 +62,16 @@ public class RouteQueries {
         r.setRouteNumber(row.get("number"));
         r.setBussesPerHour(Integer.parseInt(row.get("frequency")));
         
-        r.setStartID(Integer.parseInt(row.get("start")));
-        r.setDestinationID(Integer.parseInt(row.get("destination")));
+        //r.setStartID(Integer.parseInt(row.get("start")));
+        //r.setDestinationID(Integer.parseInt(row.get("destination")));
+        
+        BusStop start = new BusStop();
+        start.setID(Integer.parseInt(row.get("start")));
+        r.setStart(start);
+        
+        BusStop destination = new BusStop();
+        destination.setID(Integer.parseInt(row.get("destination")));
+        r.setDestination(destination);
         
         Set<String> routeOperatorsStrings = new HashSet<String>(Arrays.asList(row.get("operators").split("\\|")));
         Set<Operator> routeOperators = new HashSet<Operator>();
@@ -84,7 +92,7 @@ public class RouteQueries {
         return new ExampleQuery() {
             @Override
             public Query getQuery(Session session) {
-                return session.createQuery("select r from Route r order by r.number asc");
+                return session.createQuery("select r from Route r order by r.routeNumber asc");
             }
 
             @Override
