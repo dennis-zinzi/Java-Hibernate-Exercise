@@ -40,7 +40,7 @@ import java.util.Set;
 @NamedQueries({
         @NamedQuery(name = Operator.SELECT_ALL, query = "SELECT o FROM Operator o ORDER BY o.name ASC"),
         @NamedQuery(name = Operator.SELECT_ALL_ROUTES_BY_DIAMOND_BUSES, query = "SELECT r FROM Route r, Operator o, Operates op "
-                		+ "WHERE o.name = 'Diamond Buses' AND op.name = o.name AND op.routeNumber = r.routeNumber")
+        		+ "WHERE o.name = 'Diamond Buses' AND op.name = o.name AND op.routeNumber = r.routeNumber")
 })
 @Table(name = "Operator")
 public class Operator {
@@ -48,9 +48,11 @@ public class Operator {
     public static final String SELECT_ALL =  "Operator.selectAll";
     public static final String SELECT_ALL_ROUTES_BY_DIAMOND_BUSES = "Operator.selectAllRoutesByDiamondBuses";
     
+    //Table ID
     @Id @Column(name = "OperatorName")
 	private String name;
     
+    //Other Table Columns, made not null  
     @NotNull
     @Column(name = "Street")
     private String street;
@@ -72,6 +74,7 @@ public class Operator {
     private String email;
     
 
+    //Many-to-Many Relationship with Route Table using intermediate Operates Table
     @ManyToMany(
     		targetEntity = Route.class)
     @JoinTable(

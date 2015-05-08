@@ -46,9 +46,11 @@ public class BusStop {
 	public static final String SELECT_ALL = "BusStop.selectAll";
 	public static final String MAX_ID = "BusStop.maxID";
 
+	//BusStop Table Primary Key
 	@Id @Column(name = "ID")
 	private int ID;
 
+	//Other non-null BusStop Table's field
 	@NotNull
 	@Column(name = "Description")
 	private String description;
@@ -68,9 +70,11 @@ public class BusStop {
 		return description;
 	}
 
+	//Corresponding One-to-Many Mapping with Route Table start field
 	@OneToMany(mappedBy="start")
 	private Set<Route> routeStarts = new HashSet<Route>();
 	
+	//Corresponding One-to-Many Mapping with Route Table destination field
 	@OneToMany(mappedBy="destination")
 	private Set<Route> routeEnd = new HashSet<Route>();
 	

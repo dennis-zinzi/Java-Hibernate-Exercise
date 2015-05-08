@@ -44,6 +44,7 @@ import java.util.Set;
 public class Route {
 	public static final String SELECT_ALL = "Route.selectAll";
 
+	//Route Table Primary Key
 	@Id @Column(name = "RouteNumber")
 	private String routeNumber;
 
@@ -55,22 +56,23 @@ public class Route {
 	//@Column(name = "DestinationID")
 	//private int destinationID;
 	
+	//Other Table Columns
 	@NotNull
 	@Column(name = "Frequency")
 	private int bussesPerHour;
 	
-	
+	//Many-to-One Relationship with BusStop Object
 	@ManyToOne
 	@JoinColumn(name = "StartID")
 	private BusStop start;
 
-	
+	//Many-to-One Relationship with BusStop Object
 	@ManyToOne
 	@JoinColumn(name = "DestinationID")
 	private BusStop destination;
 
 
-	
+	//Many-to-Many Relationship with Operator Table via intermediate Operates join table
 	@ManyToMany(
 			targetEntity = Operator.class)
 	@JoinTable(

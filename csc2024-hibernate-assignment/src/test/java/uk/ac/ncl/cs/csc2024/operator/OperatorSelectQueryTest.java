@@ -62,9 +62,11 @@ public class OperatorSelectQueryTest {
             assertTrue(OperatorPredicates.SELECT_ALL_BY_DIAMOND_BUSES.isSatisfied(criteria));
             session.getTransaction().commit();
         } catch (PredicateNotSatisfiedException e) {
+        	e.printStackTrace();
             session.getTransaction().rollback();
             fail("The test failed because one or more of the queries did not satisfy the requirements: " + e.getMessage());
         } catch(Exception e) {
+        	e.printStackTrace();
             session.getTransaction().rollback();
             fail("There was some unknown error with the test. " + e.getMessage());
         }

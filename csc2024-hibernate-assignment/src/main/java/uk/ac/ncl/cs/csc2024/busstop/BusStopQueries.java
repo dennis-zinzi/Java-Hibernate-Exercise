@@ -47,12 +47,14 @@ import java.util.Map;
 public class BusStopQueries {
 
     public static Session insert(final Map<String, String> row, final Session session) {
-    	
+    	//Create new BusStop to persist
     	BusStop busStop = new BusStop();
    
+    	//Assign BusStop's appropriate fields
     	busStop.setID(Integer.parseInt(row.get("id")));
     	busStop.setDescription(row.get("description"));
    
+    	//Save BusStop Object
     	session.save(busStop);
     	
     	return session;
@@ -84,19 +86,20 @@ public class BusStopQueries {
         return new ExampleQuery() {
             @Override
             public Query getQuery(Session session) {
-                //return null;
+            	//HQL Query to return MAX(ID)
             	return session.createQuery("SELECT MAX(b.ID) FROM BusStop b");
             }
 
             @Override
             public String getNamedQueryName() {
+            	//Named Query fot MAX(ID)
                 return BusStop.MAX_ID;
             }
 
             @Override
             public Criteria getCriteria(Session session) {
+            	//Criteria projection for MAX(ID)
             	Criteria criteria = session.createCriteria(BusStop.class);
-                //criteria.addOrder(Order.asc("b.id"));
             	criteria.setProjection(Projections.max("ID"));
                 return criteria;
             }

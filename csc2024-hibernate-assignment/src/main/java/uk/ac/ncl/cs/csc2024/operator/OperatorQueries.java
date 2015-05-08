@@ -23,15 +23,16 @@ import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.Query;
-
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
+
 import uk.ac.ncl.cs.csc2024.query.ExampleQuery;
 import uk.ac.ncl.cs.csc2024.route.Route;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -51,9 +52,10 @@ import java.util.Map;
 public class OperatorQueries {
 
     public static Session insert(final Map<String, String> row, Session session) {
-    	
+    	//Create new Operator object to be persisted
     	Operator op = new Operator();
     	
+    	//Assign Operator's appropriate fields
     	op.setName(row.get("name"));
     	op.setStreet(row.get("street"));
     	op.setTown(row.get("town"));
@@ -61,6 +63,7 @@ public class OperatorQueries {
     	op.setPhone(row.get("phone"));
     	op.setEmail(row.get("email"));
     	
+    	//Save Operator in session
     	session.save(op);
     	
         return session;
@@ -91,8 +94,18 @@ public class OperatorQueries {
         return new ExampleQuery() {
             @Override
             public Query getQuery(Session session) {
-                return session.createQuery("SELECT r FROM Route r, Operator o, Operates op "
-                		+ "WHERE o.name = 'Diamond Buses' AND op.name = o.name AND op.routeNumber = r.routeNumber");
+            	//SQL code for query
+                /*return session.createSQLQuery("SELECT r.* FROM Route r, Operator o, Operates op "
+                	+ "WHERE o.OperatorName = 'Diamond Buses' "
+                	+ "AND op.OperatorName = o.OperatorName "
+                	+ "AND op.RouteNumber = r.RouteNumber");*/
+            	//Attempted to use union to join tables
+            	return session.createQuery("SELECT r.routeNumber, o.name "
+            			+ "FROM Route r "
+            			+ "UNION " 
+            			+ "SELECT o.name "
+            			+ "FROM Operator o "
+            			+ "WHERE o.name = 'Diamond Buses'");
             }
 
             @Override
@@ -103,7 +116,6 @@ public class OperatorQueries {
             @Override
             public Criteria getCriteria(Session session) {
             	Criteria criteria = session.createCriteria(Operator.class, "o");
-                criteria.addOrder(Order.asc("o.name"));
                 return criteria;
             }
         };

@@ -57,32 +57,41 @@ import java.util.Set;
 public class RouteQueries {
 
     public static Session insert(final Map<String, String> row, final Session session) {
-        Route r = new Route();
+        //Create new Route object to be persisted
+    	Route r = new Route();
         
+    	//Assign Route's appropriate fields
         r.setRouteNumber(row.get("number"));
         r.setBussesPerHour(Integer.parseInt(row.get("frequency")));
         
         //r.setStartID(Integer.parseInt(row.get("start")));
         //r.setDestinationID(Integer.parseInt(row.get("destination")));
         
+        //Create new BusStop to be mapped with Route's start
         BusStop start = new BusStop();
         start.setID(Integer.parseInt(row.get("start")));
         r.setStart(start);
         
+        //Create new BusStop to be mapped with Route's destination
         BusStop destination = new BusStop();
         destination.setID(Integer.parseInt(row.get("destination")));
         r.setDestination(destination);
         
+        //Get set of strings from operator field, in case more than one present
         Set<String> routeOperatorsStrings = new HashSet<String>(Arrays.asList(row.get("operators").split("\\|")));
+        //Create new Set of Operators
         Set<Operator> routeOperators = new HashSet<Operator>();
+        //Assign each operator a given name in the String Set
         for(String s:routeOperatorsStrings){
         	Operator o = new Operator();
         	o.setName(s);
+        	//Add Operator to Operator Set
         	routeOperators.add(o);
         }
+        //Assign Operator Set to relationship with Route
         r.setRouteOperators(routeOperators);
         
-        
+        //Save Route Object
         session.save(r);
     	
     	return session;
