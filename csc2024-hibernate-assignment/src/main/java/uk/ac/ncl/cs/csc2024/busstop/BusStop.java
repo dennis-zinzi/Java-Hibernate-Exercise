@@ -38,7 +38,7 @@ import java.util.Set;
 @Entity
 @NamedQueries({
 	@NamedQuery(name = BusStop.SELECT_ALL, query = "SELECT b FROM BusStop b ORDER BY b.id ASC"),
-	@NamedQuery(name = BusStop.MAX_ID, query = "SELECT MAX(ID) FROM BusStop")
+	@NamedQuery(name = BusStop.MAX_ID, query = "SELECT b FROM BusStop b WHERE b.id = (SELECT MAX(bS.id) FROM BusStop bS)")
 })
 @Table(name = "BusStop")
 public class BusStop {

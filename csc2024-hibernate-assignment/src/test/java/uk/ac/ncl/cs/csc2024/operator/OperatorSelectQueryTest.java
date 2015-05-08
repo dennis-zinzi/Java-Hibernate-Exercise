@@ -56,10 +56,10 @@ public class OperatorSelectQueryTest {
             ExampleQuery q = OperatorQueries.selectAllRoutesByDiamondBuses();
             Query query = q.getQuery(session);
             Query namedQuery = session.getNamedQuery(q.getNamedQueryName());
-            Criteria criteria = q.getCriteria(session);
+            //Criteria criteria = q.getCriteria(session);
             assertTrue(OperatorPredicates.SELECT_ALL_BY_DIAMOND_BUSES.isSatisfied(query));
             assertTrue(OperatorPredicates.SELECT_ALL_BY_DIAMOND_BUSES.isSatisfied(namedQuery));
-            assertTrue(OperatorPredicates.SELECT_ALL_BY_DIAMOND_BUSES.isSatisfied(criteria));
+            //assertTrue(OperatorPredicates.SELECT_ALL_BY_DIAMOND_BUSES.isSatisfied(criteria));
             session.getTransaction().commit();
         } catch (PredicateNotSatisfiedException e) {
         	e.printStackTrace();

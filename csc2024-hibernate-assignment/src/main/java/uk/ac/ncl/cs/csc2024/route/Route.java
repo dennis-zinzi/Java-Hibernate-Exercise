@@ -77,8 +77,8 @@ public class Route {
 			targetEntity = Operator.class)
 	@JoinTable(
 			name = "Operates",
-			joinColumns = @JoinColumn(name = "RouteNumber"),
-			inverseJoinColumns = @JoinColumn(name = "OperatorName"))
+			joinColumns = @JoinColumn(name = "routeNumber"),
+			inverseJoinColumns = @JoinColumn(name = "name"))
 	private Set<Operator> routeOperators = new HashSet<Operator>();
 	
 	
@@ -140,7 +140,7 @@ public class Route {
 		this.routeOperators = routeOperators;
 	}
 	
-	public Set<Operator> getRouteOperators(){
+	public Set<Operator> getOperators(){
 		return routeOperators;
 	}
 }

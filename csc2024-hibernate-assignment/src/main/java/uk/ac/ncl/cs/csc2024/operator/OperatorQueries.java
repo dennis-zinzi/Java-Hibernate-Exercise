@@ -94,18 +94,8 @@ public class OperatorQueries {
         return new ExampleQuery() {
             @Override
             public Query getQuery(Session session) {
-            	//SQL code for query
-                /*return session.createSQLQuery("SELECT r.* FROM Route r, Operator o, Operates op "
-                	+ "WHERE o.OperatorName = 'Diamond Buses' "
-                	+ "AND op.OperatorName = o.OperatorName "
-                	+ "AND op.RouteNumber = r.RouteNumber");*/
-            	//Attempted to use union to join tables
-            	return session.createQuery("SELECT r.routeNumber, o.name "
-            			+ "FROM Route r "
-            			+ "UNION " 
-            			+ "SELECT o.name "
-            			+ "FROM Operator o "
-            			+ "WHERE o.name = 'Diamond Buses'");
+            
+            	return session.createQuery("SELECT r FROM Route r JOIN r.routeOperators op WHERE op.name = 'Diamond Buses'");
             }
 
             @Override

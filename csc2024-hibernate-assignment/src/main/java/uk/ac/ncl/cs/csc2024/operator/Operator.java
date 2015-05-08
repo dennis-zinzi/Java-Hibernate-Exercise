@@ -39,8 +39,8 @@ import java.util.Set;
 @Entity
 @NamedQueries({
         @NamedQuery(name = Operator.SELECT_ALL, query = "SELECT o FROM Operator o ORDER BY o.name ASC"),
-        @NamedQuery(name = Operator.SELECT_ALL_ROUTES_BY_DIAMOND_BUSES, query = "SELECT r FROM Route r, Operator o, Operates op "
-        		+ "WHERE o.name = 'Diamond Buses' AND op.name = o.name AND op.routeNumber = r.routeNumber")
+        @NamedQuery(name = Operator.SELECT_ALL_ROUTES_BY_DIAMOND_BUSES, query = "SELECT r FROM Route r "
+        		+ "JOIN r.routeOperators op WHERE op.name = 'Diamond Buses'")
 })
 @Table(name = "Operator")
 public class Operator {
@@ -74,13 +74,14 @@ public class Operator {
     private String email;
     
 
-    //Many-to-Many Relationship with Route Table using intermediate Operates Table
+//    Many-to-Many Relationship with Route Table using intermediate Operates Table
     @ManyToMany(
     		targetEntity = Route.class)
     @JoinTable(
     		name = "Operates",
-    		joinColumns = @JoinColumn(name = "OperatorName"),
-    		inverseJoinColumns = @JoinColumn(name = "RouteNumber"))
+    		joinColumns = @JoinColumn(name = "name"),
+    		inverseJoinColumns = @JoinColumn(name = "routeNumber"))
+    //@ManyToMany(mappedBy = "routeOperators")
     private Set<Route> operatorRoutes = new HashSet<Route>();
 
 

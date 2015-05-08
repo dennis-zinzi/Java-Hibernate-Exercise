@@ -87,12 +87,12 @@ public class BusStopQueries {
             @Override
             public Query getQuery(Session session) {
             	//HQL Query to return MAX(ID)
-            	return session.createQuery("SELECT MAX(b.ID) FROM BusStop b");
+            	return session.createQuery("SELECT b FROM BusStop b WHERE b.id = (SELECT MAX(bS.id) FROM BusStop bS)");
             }
 
             @Override
             public String getNamedQueryName() {
-            	//Named Query fot MAX(ID)
+            	//Named Query for MAX(ID)
                 return BusStop.MAX_ID;
             }
 
