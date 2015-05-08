@@ -40,13 +40,17 @@ import java.util.Set;
 @NamedQueries({
         @NamedQuery(name = Operator.SELECT_ALL, query = "SELECT o FROM Operator o ORDER BY o.name ASC"),
         @NamedQuery(name = Operator.SELECT_ALL_ROUTES_BY_DIAMOND_BUSES, query = "SELECT r FROM Route r "
-        		+ "JOIN r.routeOperators op WHERE op.name = 'Diamond Buses'")
+        		+ "JOIN r.routeOperators op WHERE op.name = 'Diamond Buses'"),
+        @NamedQuery(name = Operator.SELECT_ALL_FOR_PARK_GATES, query = "SELECT o FROM BusStop b, Route r, Operator o "
+        		+ "JOIN o.operatorRoutes opr WHERE b.description = 'Park Gates' AND (r.start = b.ID OR r.destination = b.ID) "
+    			+ "AND opr.routeNumber = r.routeNumber")
 })
 @Table(name = "Operator")
 public class Operator {
 
     public static final String SELECT_ALL =  "Operator.selectAll";
     public static final String SELECT_ALL_ROUTES_BY_DIAMOND_BUSES = "Operator.selectAllRoutesByDiamondBuses";
+    public static final String SELECT_ALL_FOR_PARK_GATES = "Operator.selectAllForParkGates";
     
     //Table ID
     @Id @Column(name = "OperatorName")

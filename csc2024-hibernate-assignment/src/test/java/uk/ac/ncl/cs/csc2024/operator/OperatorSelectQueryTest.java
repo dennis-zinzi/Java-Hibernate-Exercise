@@ -72,17 +72,17 @@ public class OperatorSelectQueryTest {
         }
     }
 
-    @Test @Ignore
+    @Test
     public void testSelectAllForParkGates() {
         try {
             session.beginTransaction();
             ExampleQuery q = OperatorQueries.selectAllForParkGates();
             Query query  = q.getQuery(session);
             Query namedQuery = session.getNamedQuery(q.getNamedQueryName());
-            Criteria criteria = q.getCriteria(session);
+            //Criteria criteria = q.getCriteria(session);
             assertTrue(OperatorPredicates.SELECT_ALL_FOR_PARK_GATES.isSatisfied(query));
             assertTrue(OperatorPredicates.SELECT_ALL_FOR_PARK_GATES.isSatisfied(namedQuery));
-            assertTrue(OperatorPredicates.SELECT_ALL_FOR_PARK_GATES.isSatisfied(criteria));
+            //assertTrue(OperatorPredicates.SELECT_ALL_FOR_PARK_GATES.isSatisfied(criteria));
             session.getTransaction().commit();
         } catch (PredicateNotSatisfiedException e) {
             session.getTransaction().rollback();

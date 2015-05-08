@@ -38,11 +38,17 @@ import java.util.Set;
  */
 @Entity
 @NamedQueries({
-	@NamedQuery(name = Route.SELECT_ALL, query = "SELECT r FROM Route r ORDER BY r.routeNumber ASC")
+	@NamedQuery(name = Route.SELECT_ALL, query = "SELECT r FROM Route r ORDER BY r.routeNumber ASC"),
+	@NamedQuery(name = Route.SELECT_ALL_FOR_RAILWAY_STATION, query = "SELECT r FROM Route r, BusStop b WHERE b.description = 'Railway Station' "
+                		+ "AND (r.start = b.ID OR r.destination = b.ID)"),
+    @NamedQuery(name = Route.CUMULATIVE_FREQUNCY_BY_OK_TRAVEL, query = "SELECT SUM(r.bussesPerHour/r.routeOperators.size) FROM Route r JOIN r.routeOperators ro "
+                		+ "WHERE ro.name = 'OK Travel'")
 })
 @Table(name = "Route")
 public class Route {
 	public static final String SELECT_ALL = "Route.selectAll";
+	public static final String SELECT_ALL_FOR_RAILWAY_STATION = "Route.selectAllForRailwayStation";
+	public static final String CUMULATIVE_FREQUNCY_BY_OK_TRAVEL = "Route.cumulativeFrequencyByOkTravel";
 
 	//Route Table Primary Key
 	@Id @Column(name = "RouteNumber")

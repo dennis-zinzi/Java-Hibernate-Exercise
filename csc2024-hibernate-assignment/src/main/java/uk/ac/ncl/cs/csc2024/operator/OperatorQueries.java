@@ -115,12 +115,15 @@ public class OperatorQueries {
         return new ExampleQuery() {
             @Override
             public Query getQuery(Session session) {
-                return null;
+            	
+            	return session.createQuery("SELECT o FROM BusStop b, Route r, Operator o JOIN o.operatorRoutes "
+            			+ "WHERE b.description = 'Park Gates' AND (r.start = b.ID OR r.destination = b.ID) "
+            			+ "AND opr.routeNumber = r.routeNumber");
             }
 
             @Override
             public String getNamedQueryName() {
-                return null;
+                return Operator.SELECT_ALL_FOR_PARK_GATES;
             }
 
             @Override

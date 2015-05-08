@@ -123,12 +123,14 @@ public class RouteQueries {
         return new ExampleQuery() {
             @Override
             public Query getQuery(Session session) {
-                return null;
+//SELECT r.* FROM Route r,BusStop b WHERE b.Description = 'Railway Station' AND (r.StartID = b.ID OR r.DestinationID = b.ID)
+                return session.createQuery("SELECT r FROM Route r, BusStop b WHERE b.description = 'Railway Station' "
+                		+ "AND (r.start = b.ID OR r.destination = b.ID)");
             }
 
             @Override
             public String getNamedQueryName() {
-                return null;
+                return Route.SELECT_ALL_FOR_RAILWAY_STATION;
             }
 
             @Override
@@ -142,12 +144,14 @@ public class RouteQueries {
         return new ExampleQuery() {
             @Override
             public Query getQuery(Session session) {
-                return null;
+//SELECT SUM(r.bussesPerHour) FROM Route r, Operates op WHERE op.name = 'OK Travel' AND r.routeNumber = op.routeNumber
+                return session.createQuery("SELECT SUM(r.bussesPerHour/r.routeOperators.size) FROM Route r JOIN r.routeOperators ro "
+                		+ "WHERE ro.name = 'OK Travel'");
             }
 
             @Override
             public String getNamedQueryName() {
-                return null;
+                return Route.CUMULATIVE_FREQUNCY_BY_OK_TRAVEL;
             }
 
             @Override
