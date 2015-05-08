@@ -38,55 +38,54 @@ import java.util.Set;
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(name = Operator.SELECT_ALL, query = "SELECT o FROM Operator o ORDER BY o.name ASC"),
-        @NamedQuery(name = Operator.SELECT_ALL_ROUTES_BY_DIAMOND_BUSES, query = "SELECT r FROM Route r "
-        		+ "JOIN r.routeOperators op WHERE op.name = 'Diamond Buses'"),
-        @NamedQuery(name = Operator.SELECT_ALL_FOR_PARK_GATES, query = "SELECT o FROM BusStop b, Route r, Operator o "
-        		+ "JOIN o.operatorRoutes opr WHERE b.description = 'Park Gates' AND (r.start = b.ID OR r.destination = b.ID) "
-    			+ "AND opr.routeNumber = r.routeNumber")
+	@NamedQuery(name = Operator.SELECT_ALL, query = "SELECT o FROM Operator o ORDER BY o.name ASC"),
+	@NamedQuery(name = Operator.SELECT_ALL_ROUTES_BY_DIAMOND_BUSES, query = "SELECT r FROM Route r "
+			+ "JOIN r.routeOperators op WHERE op.name = 'Diamond Buses'"),
+			@NamedQuery(name = Operator.SELECT_ALL_FOR_PARK_GATES, query = "SELECT o FROM BusStop b, Route r, Operator o "
+					+ "JOIN o.operatorRoutes opr WHERE b.description = 'Park Gates' AND (r.start = b.ID OR r.destination = b.ID) "
+					+ "AND opr.routeNumber = r.routeNumber")
 })
 @Table(name = "Operator")
 public class Operator {
 
-    public static final String SELECT_ALL =  "Operator.selectAll";
-    public static final String SELECT_ALL_ROUTES_BY_DIAMOND_BUSES = "Operator.selectAllRoutesByDiamondBuses";
-    public static final String SELECT_ALL_FOR_PARK_GATES = "Operator.selectAllForParkGates";
-    
-    //Table ID
-    @Id @Column(name = "OperatorName")
-	private String name;
-    
-    //Other Table Columns, made not null  
-    @NotNull
-    @Column(name = "Street")
-    private String street;
-    
-    @NotNull
-    @Column(name = "Town")
-    private String town;
-    
-    @NotNull
-    @Column(name = "Postcode")
-    private String postcode;
-    
-    @NotNull
-    @Column(name = "Phone")
-    private String phone;
-    
-    @NotNull
-    @Column(name = "Email")
-    private String email;
-    
+	public static final String SELECT_ALL =  "Operator.selectAll";
+	public static final String SELECT_ALL_ROUTES_BY_DIAMOND_BUSES = "Operator.selectAllRoutesByDiamondBuses";
+	public static final String SELECT_ALL_FOR_PARK_GATES = "Operator.selectAllForParkGates";
 
-//    Many-to-Many Relationship with Route Table using intermediate Operates Table
-    @ManyToMany(
-    		targetEntity = Route.class)
-    @JoinTable(
-    		name = "Operates",
-    		joinColumns = @JoinColumn(name = "name"),
-    		inverseJoinColumns = @JoinColumn(name = "routeNumber"))
-    //@ManyToMany(mappedBy = "routeOperators")
-    private Set<Route> operatorRoutes = new HashSet<Route>();
+	//Table ID
+	@Id @Column(name = "OperatorName")
+	private String name;
+
+	//Other Table Columns, made not null  
+	@NotNull
+	@Column(name = "Street")
+	private String street;
+
+	@NotNull
+	@Column(name = "Town")
+	private String town;
+
+	@NotNull
+	@Column(name = "Postcode")
+	private String postcode;
+
+	@NotNull
+	@Column(name = "Phone")
+	private String phone;
+
+	@NotNull
+	@Column(name = "Email")
+	private String email;
+
+
+	//Many-to-Many Relationship with Route Table using intermediate Operates Table
+	@ManyToMany(
+			targetEntity = Route.class)
+	@JoinTable(
+			name = "Operates",
+			joinColumns = @JoinColumn(name = "name"),
+			inverseJoinColumns = @JoinColumn(name = "routeNumber"))
+	private Set<Route> operatorRoutes = new HashSet<Route>();
 
 
 	public String getName() {

@@ -24,6 +24,7 @@ import org.hibernate.Session;
 import org.hibernate.Query;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 
 import uk.ac.ncl.cs.csc2024.query.ExampleQuery;
 
@@ -99,8 +100,9 @@ public class BusStopQueries {
             @Override
             public Criteria getCriteria(Session session) {
             	//Criteria projection for MAX(ID)
-            	Criteria criteria = session.createCriteria(BusStop.class);
-            	criteria.setProjection(Projections.max("ID"));
+            	Criteria criteria = session.createCriteria(BusStop.class, "b");
+            	criteria.addOrder(Order.desc("b.ID"));
+            	criteria.setMaxResults(1);
                 return criteria;
             }
         };

@@ -59,10 +59,10 @@ public class RouteSelectQueryTest {
             ExampleQuery q = RouteQueries.selectAllForRailwayStation();
             Query query  = q.getQuery(session);
             Query namedQuery = session.getNamedQuery(q.getNamedQueryName());
-            //Criteria criteria = q.getCriteria(session);
+            Criteria criteria = q.getCriteria(session);
             assertTrue(RoutePredicates.SELECT_ALL_FOR_RAILWAY_STATION.isSatisfied(query));
             assertTrue(RoutePredicates.SELECT_ALL_FOR_RAILWAY_STATION.isSatisfied(namedQuery));
-            //assertTrue(RoutePredicates.SELECT_ALL_FOR_RAILWAY_STATION.isSatisfied(criteria));
+            assertTrue(RoutePredicates.SELECT_ALL_FOR_RAILWAY_STATION.isSatisfied(criteria));
             session.getTransaction().commit();
         } catch (PredicateNotSatisfiedException e) {
             session.getTransaction().rollback();

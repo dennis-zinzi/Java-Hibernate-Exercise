@@ -22,9 +22,12 @@ package uk.ac.ncl.cs.csc2024.route;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Query;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.Subqueries;
 import org.hibernate.sql.JoinType;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.Type;
@@ -56,110 +59,120 @@ import java.util.Set;
  */
 public class RouteQueries {
 
-    public static Session insert(final Map<String, String> row, final Session session) {
-        //Create new Route object to be persisted
-    	Route r = new Route();
-        
-    	//Assign Route's appropriate fields
-        r.setRouteNumber(row.get("number"));
-        r.setBussesPerHour(Integer.parseInt(row.get("frequency")));
-        
-        //r.setStartID(Integer.parseInt(row.get("start")));
-        //r.setDestinationID(Integer.parseInt(row.get("destination")));
-        
-        //Create new BusStop to be mapped with Route's start
-        BusStop start = new BusStop();
-        start.setID(Integer.parseInt(row.get("start")));
-        r.setStart(start);
-        
-        //Create new BusStop to be mapped with Route's destination
-        BusStop destination = new BusStop();
-        destination.setID(Integer.parseInt(row.get("destination")));
-        r.setDestination(destination);
-        
-        //Get set of strings from operator field, in case more than one present
-        Set<String> routeOperatorsStrings = new HashSet<String>(Arrays.asList(row.get("operators").split("\\|")));
-        //Create new Set of Operators
-        Set<Operator> routeOperators = new HashSet<Operator>();
-        //Assign each operator a given name in the String Set
-        for(String s:routeOperatorsStrings){
-        	Operator o = new Operator();
-        	o.setName(s);
-        	//Add Operator to Operator Set
-        	routeOperators.add(o);
-        }
-        //Assign Operator Set to relationship with Route
-        r.setRouteOperators(routeOperators);
-        
-        //Save Route Object
-        session.save(r);
-    	
-    	return session;
-    }
+	public static Session insert(final Map<String, String> row, final Session session) {
+		//Create new Route object to be persisted
+		Route r = new Route();
 
-    public static ExampleQuery selectAll() {
-        return new ExampleQuery() {
-            @Override
-            public Query getQuery(Session session) {
-                return session.createQuery("select r from Route r order by r.routeNumber asc");
-            }
+		//Assign Route's appropriate fields
+		r.setRouteNumber(row.get("number"));
+		r.setBussesPerHour(Integer.parseInt(row.get("frequency")));
 
-            @Override
-            public String getNamedQueryName() {
-                return Route.SELECT_ALL;
-            }
+		//r.setStartID(Integer.parseInt(row.get("start")));
+		//r.setDestinationID(Integer.parseInt(row.get("destination")));
 
-            @Override
-            public Criteria getCriteria(Session session) {
-                Criteria criteria = session.createCriteria(Route.class, "r");
-                criteria.addOrder(Order.asc("r.number"));
-                return criteria;
-            }
-        };
-    }
+		//Create new BusStop to be mapped with Route's start
+		BusStop start = new BusStop();
+		start.setID(Integer.parseInt(row.get("start")));
+		r.setStart(start);
+
+		//Create new BusStop to be mapped with Route's destination
+		BusStop destination = new BusStop();
+		destination.setID(Integer.parseInt(row.get("destination")));
+		r.setDestination(destination);
+
+		//Get set of strings from operator field, in case more than one present
+		Set<String> routeOperatorsStrings = new HashSet<String>(Arrays.asList(row.get("operators").split("\\|")));
+		//Create new Set of Operators
+		Set<Operator> routeOperators = new HashSet<Operator>();
+		//Assign each operator a given name in the String Set
+		for(String s:routeOperatorsStrings){
+			Operator o = new Operator();
+			o.setName(s);
+			//Add Operator to Operator Set
+			routeOperators.add(o);
+		}
+		//Assign Operator Set to relationship with Route
+		r.setRouteOperators(routeOperators);
+
+		//Save Route Object
+		session.save(r);
+
+		return session;
+	}
+
+	public static ExampleQuery selectAll() {
+		return new ExampleQuery() {
+			@Override
+			public Query getQuery(Session session) {
+				return session.createQuery("select r from Route r order by r.routeNumber asc");
+			}
+
+			@Override
+			public String getNamedQueryName() {
+				return Route.SELECT_ALL;
+			}
+
+			@Override
+			public Criteria getCriteria(Session session) {
+				Criteria criteria = session.createCriteria(Route.class, "r");
+				criteria.addOrder(Order.asc("r.number"));
+				return criteria;
+			}
+		};
+	}
 
 
-    public static ExampleQuery selectAllForRailwayStation() {
-        return new ExampleQuery() {
-            @Override
-            public Query getQuery(Session session) {
-//SELECT r.* FROM Route r,BusStop b WHERE b.Description = 'Railway Station' AND (r.StartID = b.ID OR r.DestinationID = b.ID)
-                return session.createQuery("SELECT r FROM Route r, BusStop b WHERE b.description = 'Railway Station' "
-                		+ "AND (r.start = b.ID OR r.destination = b.ID)");
-            }
+	public static ExampleQuery selectAllForRailwayStation() {
+		return new ExampleQuery() {
+			@Override
+			public Query getQuery(Session session) {
+				//SELECT r.* FROM Route r,BusStop b WHERE b.Description = 'Railway Station' AND (r.StartID = b.ID OR r.DestinationID = b.ID)
+				return session.createQuery("SELECT r FROM Route r, BusStop b WHERE b.description = 'Railway Station' "
+						+ "AND (r.start = b.ID OR r.destination = b.ID)");
+			}
 
-            @Override
-            public String getNamedQueryName() {
-                return Route.SELECT_ALL_FOR_RAILWAY_STATION;
-            }
+			@Override
+			public String getNamedQueryName() {
+				return Route.SELECT_ALL_FOR_RAILWAY_STATION;
+			}
 
-            @Override
-            public Criteria getCriteria(Session session) {
-                return null;
-            }
-        };
-    }
+			@Override
+			public Criteria getCriteria(Session session) {
+				DetachedCriteria b1 = (DetachedCriteria) session.createCriteria(BusStop.class, "b1");
+				b1.add(Restrictions.ilike("description","Railway Station"));
+				
+				
+				Criteria criteria = session.createCriteria(Route.class, "r");
+				criteria.add(Restrictions.disjunction()
+						.add(Subqueries.eq("r.start", b1))
+						.add(Subqueries.eq("r.destination", b1))
+						);
+				
+				return criteria;
+			}
+		};
+	}
 
-    public static ExampleQuery cumulativeFrequencyByOkTravel() {
-        return new ExampleQuery() {
-            @Override
-            public Query getQuery(Session session) {
-//SELECT SUM(r.bussesPerHour) FROM Route r, Operates op WHERE op.name = 'OK Travel' AND r.routeNumber = op.routeNumber
-                return session.createQuery("SELECT SUM(r.bussesPerHour/r.routeOperators.size) FROM Route r JOIN r.routeOperators ro "
-                		+ "WHERE ro.name = 'OK Travel'");
-            }
+	public static ExampleQuery cumulativeFrequencyByOkTravel() {
+		return new ExampleQuery() {
+			@Override
+			public Query getQuery(Session session) {
+				//SELECT SUM(r.bussesPerHour) FROM Route r, Operates op WHERE op.name = 'OK Travel' AND r.routeNumber = op.routeNumber
+				return session.createQuery("SELECT SUM(r.bussesPerHour/r.routeOperators.size) FROM Route r JOIN r.routeOperators ro "
+						+ "WHERE ro.name = 'OK Travel'");
+			}
 
-            @Override
-            public String getNamedQueryName() {
-                return Route.CUMULATIVE_FREQUNCY_BY_OK_TRAVEL;
-            }
+			@Override
+			public String getNamedQueryName() {
+				return Route.CUMULATIVE_FREQUNCY_BY_OK_TRAVEL;
+			}
 
-            @Override
-            public Criteria getCriteria(Session session) {
-            	return null;
-            }
-        };
-    }
+			@Override
+			public Criteria getCriteria(Session session) {
+				return null;
+			}
+		};
+	}
 
 
 }

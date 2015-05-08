@@ -105,8 +105,10 @@ public class OperatorQueries {
 
             @Override
             public Criteria getCriteria(Session session) {
-            	Criteria criteria = session.createCriteria(Operator.class, "o");
-                return criteria;
+            	Criteria criteria = session.createCriteria(Route.class)
+            			.createCriteria("routeOperators")
+            			.add(Restrictions.ilike("name", "Diamond Buses"));
+            	return criteria;
             }
         };
     }

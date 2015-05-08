@@ -56,10 +56,10 @@ public class BusStopSelectQueryTest {
 			ExampleQuery q = BusStopQueries.selectMaxId();
 			Query query = q.getQuery(session);
 			Query namedQuery = session.getNamedQuery(q.getNamedQueryName());
-			//Criteria criteria = q.getCriteria(session);
+			Criteria criteria = q.getCriteria(session);
 			assertTrue(BusStopPredicates.SELECT_MAX_ID.isSatisfied(query));
 			assertTrue(BusStopPredicates.SELECT_MAX_ID.isSatisfied(namedQuery));
-			//assertTrue(BusStopPredicates.SELECT_MAX_ID.isSatisfied(criteria));
+			assertTrue(BusStopPredicates.SELECT_MAX_ID.isSatisfied(criteria));
 			session.getTransaction().commit();
 		} catch (PredicateNotSatisfiedException e) {
 			e.printStackTrace();
